@@ -50,7 +50,7 @@ jobs:
             $tag = "v1.0.0-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmm'))"
           }
           Write-Host "Versão final: $tag"
-          "version=$tag" >> $env:GITHUB_OUTPUT
+          "version=$tag" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
 
       - name: Restaurar Dependências
         run: dotnet restore TrashAll.csproj
@@ -78,11 +78,11 @@ jobs:
 
           # 1. Zip Portátil (tudo embutido, não precisa de .NET instalado)
           $portableZip = "./dist/TrashAll-$ver-win-x64-portable.zip"
-          Compress-Archive -Path ./out/portable/TrashAll.exe -DestinationPath $portableZip -CompressionLevel Optimal
+          Compress-Archive -Path ./out/portable/* -DestinationPath $portableZip -CompressionLevel Optimal
 
           # 2. Zip Dependente (requer .NET 8)
           $depZip = "./dist/TrashAll-$ver-win-x64-dependent.zip"
-          Compress-Archive -Path ./out/dependent/TrashAll.exe -DestinationPath $depZip -CompressionLevel Optimal
+          Compress-Archive -Path ./out/dependent/* -DestinationPath $depZip -CompressionLevel Optimal
 
           # 3. Gerar Hashes SHA256 de verificação
           Get-ChildItem -Path ./dist/*.zip | ForEach-Object {
