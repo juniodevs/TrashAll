@@ -1,0 +1,108 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag da Versão (ex: v1.0.0)'
+        required: false
+        default: ''
+      is_draft:
+        description: 'Criar como rascunho (Draft)?'
+        type: boolean
+        default: false
+      is_prerelease:
+        description: 'Marcar como Pré-lançamento (Pre-release)?'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build & Publish Release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Determinar Nome da Versão
+        id: get_version
+        shell: pwsh
+        run: |
+          if ("${{ github.event.inputs.tag_name }}" -ne "") {
+            $tag = "${{ github.event.inputs.tag_name }}"
+          } elseif ("${{ github.ref }}" -like "refs/tags/v*") {
+            $tag = "${{ github.ref_name }}"
+          } else {
+            $tag = "v1.0.0-$([DateTime]::UtcNow.ToString('yyyyMMdd-HHmm'))"
+          }
+          Write-Host "Versão final: $tag"
+          "version=$tag" >> $env:GITHUB_OUTPUT
+
+      - name: Restaurar Dependências
+        run: dotnet restore TrashAll.csproj
+
+      - name: Publicar Versão Portátil (Self-Contained - Single File)
+        run: |
+          dotnet publish TrashAll.csproj -c Release -r win-x64 --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:EnableCompressionInSingleFile=true `
+            -o ./out/portable
+
+      - name: Publicar Versão Leve (Framework-Dependent)
+        run: |
+          dotnet publish TrashAll.csproj -c Release -r win-x64 --self-contained false `
+            -p:PublishSingleFile=true `
+            -o ./out/dependent
+
+      - name: Empacotar Arquivos ZIP
+        id: package
+        shell: pwsh
+        run: |
+          $ver = "${{ steps.get_version.outputs.version }}"
+          New-Item -ItemType Directory -Force -Path ./dist | Out-Null
+
+          # 1. Zip Portátil (tudo embutido, não precisa de .NET instalado)
+          $portableZip = "./dist/TrashAll-$ver-win-x64-portable.zip"
+          Compress-Archive -Path ./out/portable/TrashAll.exe -DestinationPath $portableZip -CompressionLevel Optimal
+
+          # 2. Zip Dependente (requer .NET 8)
+          $depZip = "./dist/TrashAll-$ver-win-x64-dependent.zip"
+          Compress-Archive -Path ./out/dependent/TrashAll.exe -DestinationPath $depZip -CompressionLevel Optimal
+
+          # 3. Gerar Hashes SHA256 de verificação
+          Get-ChildItem -Path ./dist/*.zip | ForEach-Object {
+            $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $($_.Name)" | Out-File -FilePath ./dist/SHA256SUMS.txt -Append -Encoding utf8
+          }
+
+          Get-ChildItem ./dist
+
+      - name: Criar Release no GitHub
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          name: TrashAll ${{ steps.get_version.outputs.version }}
+          draft: ${{ github.event.inputs.is_draft || false }}
+          prerelease: ${{ github.event.inputs.is_prerelease || false }}
+          generate_release_notes: true
+          files: |
+            dist/TrashAll-*-win-x64-portable.zip
+            dist/TrashAll-*-win-x64-dependent.zip
+            dist/SHA256SUMS.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
