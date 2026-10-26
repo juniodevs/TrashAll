@@ -76,11 +76,16 @@ namespace TrashAll.ViewModels
         [ObservableProperty]
         private bool _includeSubfolders = true;
 
-        // Alternância de Telas: Visualizador (false) vs Modo Lista (true)
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(IsVisualizerMode))]
         private bool _isListViewMode = false;
 
-        // Categorias e Contadores
+        public bool IsVisualizerMode
+        {
+            get => !IsListViewMode;
+            set => IsListViewMode = !value;
+        }
+
         [ObservableProperty]
         private string _selectedCategory = "Todos";
 
@@ -102,7 +107,6 @@ namespace TrashAll.ViewModels
         [ObservableProperty]
         private string _statusMessage = "Pronto";
 
-        // Contadores por Categoria
         [ObservableProperty]
         private int _countTotal = 0;
 
@@ -130,14 +134,12 @@ namespace TrashAll.ViewModels
         [ObservableProperty]
         private string _duplicateWastedText = string.Empty;
 
-        // Filtros Rápidos e Busca
         [ObservableProperty]
         private string _searchQuery = string.Empty;
 
         [ObservableProperty]
         private string _selectedSizeFilter = "Todos";
 
-        // Desfazer (Ctrl+Z) e Toast
         [ObservableProperty]
         private bool _canUndo = false;
 
@@ -294,7 +296,6 @@ namespace TrashAll.ViewModels
             }
             catch
             {
-                // Processo cancelado ou erro menor na leitura de arquivo
             }
         }
 
@@ -529,13 +530,11 @@ namespace TrashAll.ViewModels
 
             _loader.InvalidateCache(itemToDelete.FilePath);
 
-            // Armazena na pilha de Desfazer
             _undoStack.Push(new UndoItem(itemToDelete, deletedIdx));
             CanUndo = true;
-            UndoToastMessage = $"🗑️ '{itemToDelete.FileName}' movido para a Lixeira.";
+            UndoToastMessage = $"'{itemToDelete.FileName}' movido para a Lixeira.";
             ShowUndoToast();
 
-            // Atualização otimista imediata
             DeletedCount++;
             TotalFreedBytes += itemToDelete.FileSizeBytes;
             FreedSpaceText = $"{MediaItem.FormatBytes(TotalFreedBytes)} liberados ({DeletedCount} itens)";
@@ -543,7 +542,6 @@ namespace TrashAll.ViewModels
             _masterList.Remove(itemToDelete);
             Items.RemoveAt(deletedIdx);
 
-            // Atualiza e decrementa os contadores de categoria e total imediatamente
             RecalculateCategoryCounts();
 
             if (Items.Count == 0)
@@ -656,7 +654,6 @@ namespace TrashAll.ViewModels
 
         private bool MatchesFilter(MediaItem item)
         {
-            // 1. Categoria
             bool matchesCategory = SelectedCategory switch
             {
                 "Imagens" => item.Type == MediaType.Image,
@@ -671,7 +668,6 @@ namespace TrashAll.ViewModels
 
             if (!matchesCategory) return false;
 
-            // 2. Filtro Rápido por Tamanho
             bool matchesSize = SelectedSizeFilter switch
             {
                 "> 1 GB" => item.FileSizeBytes >= 1024L * 1024 * 1024,
@@ -683,7 +679,6 @@ namespace TrashAll.ViewModels
 
             if (!matchesSize) return false;
 
-            // 3. Busca em Tempo Real
             if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
                 string q = SearchQuery.Trim();

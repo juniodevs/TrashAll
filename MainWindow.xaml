@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:TrashAll.ViewModels"
         xmlns:helpers="clr-namespace:TrashAll.Helpers"
         mc:Ignorable="d"
-        Title="TrashAll — Triagem e Limpeza de Arquivos"
+        Title="TrashAll - Triagem e Limpeza de Arquivos"
         Height="820" Width="1240"
         MinHeight="600" MinWidth="960"
         WindowStartupLocation="CenterScreen"
@@ -28,19 +28,13 @@
 
     <Grid Background="#0B0D13">
         <Grid.RowDefinitions>
-            <!-- 0: Barra de Título Arrastável -->
             <RowDefinition Height="38" />
-            <!-- 1: Barra de Ferramentas / Controles -->
             <RowDefinition Height="Auto" />
-            <!-- 2: Barra de Categorias e Filtros -->
             <RowDefinition Height="Auto" />
-            <!-- 3: Área Central (Visualizador OU Lista) -->
             <RowDefinition Height="*" />
-            <!-- 4: Barra Inferior de Ações e Detalhes -->
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- 0. BARRA DE TÍTULO ARRASTÁVEL -->
         <Grid Grid.Row="0" Background="#00000000" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -61,63 +55,56 @@
             <ui:TitleBar Grid.Column="2" Padding="0" />
         </Grid>
 
-        <!-- 1. BARRA DE FERRAMENTAS PRINCIPAL -->
-        <Border Grid.Row="1" Background="#13161F" BorderBrush="#222736" BorderThickness="0,1,0,1" Padding="16,10">
+        <Border Grid.Row="1" Background="#12151E" BorderBrush="#1F2533" BorderThickness="0,1,0,1" Padding="14,8">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Escolher Pasta e Subpastas -->
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <WrapPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="BtnOpenFolder" 
                             Content="📁  Escolher Pasta" 
                             Click="BtnOpenFolder_Click"
-                            Background="#1F2430" Foreground="#F0F6FC" BorderBrush="#353D52" BorderThickness="1"
-                            FontWeight="SemiBold" FontSize="13"
-                            Padding="16,8" Cursor="Hand" Margin="0,0,14,0" />
+                            Background="#1A202D" Foreground="#F0F6FC" BorderBrush="#333E56" BorderThickness="1"
+                            FontWeight="SemiBold" FontSize="12"
+                            Padding="14,7" Cursor="Hand" Margin="0,2,12,2" />
 
                     <CheckBox Content="Incluir subpastas" 
                               IsChecked="{Binding IncludeSubfolders, Mode=TwoWay}"
                               Foreground="#9DA7B8" FontSize="12" VerticalAlignment="Center"
-                              Margin="0,0,16,0" />
-                </StackPanel>
+                              Margin="0,2,14,2" />
 
-                <Rectangle Grid.Column="0" HorizontalAlignment="Right" Width="1" Fill="#242B3B" Margin="0,2,0,2" />
+                    <Rectangle Width="1" Height="20" Fill="#242B3B" Margin="0,2,14,2" VerticalAlignment="Center" />
 
-                <!-- Ordenação e Alternador de Modo de Exibição -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
-                    <TextBlock Text="Ordem:" Foreground="#8B949E" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="12" />
+                    <RadioButton x:Name="RbVisualizer" Content="👁️ Visualizador" 
+                                 IsChecked="{Binding IsVisualizerMode, Mode=TwoWay}"
+                                 Click="RbVisualizer_Click"
+                                 GroupName="ViewMode" Style="{StaticResource {x:Type ToggleButton}}"
+                                 Background="#161A24" Foreground="#E6EDF3" BorderBrush="#272F42"
+                                 Height="32" Padding="12,0" Margin="0,2,4,2" FontWeight="SemiBold" FontSize="12" Cursor="Hand" />
+
+                    <RadioButton x:Name="RbList" Content="📋 Modo Lista" 
+                                 IsChecked="{Binding IsListViewMode, Mode=TwoWay}"
+                                 Click="RbList_Click"
+                                 GroupName="ViewMode" Style="{StaticResource {x:Type ToggleButton}}"
+                                 Background="#161A24" Foreground="#E6EDF3" BorderBrush="#272F42"
+                                 Height="32" Padding="12,0" Margin="0,2,14,2" FontWeight="SemiBold" FontSize="12" Cursor="Hand" />
+
+                    <Rectangle Width="1" Height="20" Fill="#242B3B" Margin="0,2,14,2" VerticalAlignment="Center" />
+
+                    <TextBlock Text="Ordem:" Foreground="#8B949E" VerticalAlignment="Center" Margin="0,2,6,2" FontSize="12" />
                     <ComboBox SelectedValue="{Binding SelectedSort, Mode=TwoWay}" 
                               SelectedValuePath="Content"
-                              Width="160" Height="34" Margin="0,0,16,0" VerticalAlignment="Center">
+                              Width="145" Height="32" Margin="0,2,14,2" VerticalAlignment="Center" FontSize="12">
                         <ComboBoxItem Content="Maior Tamanho" IsSelected="True" />
                         <ComboBoxItem Content="Mais Recente" />
                         <ComboBoxItem Content="Nome (A-Z)" />
                     </ComboBox>
+                </WrapPanel>
 
-                    <!-- BOTÃO ALTERNADOR: VISUALIZADOR vs LISTA -->
-                    <RadioButton x:Name="RbVisualizer" Content="👁️ Visualizador" 
-                                 IsChecked="{Binding IsListViewMode, Converter={StaticResource InverseBoolToVis}, Mode=OneWay}"
-                                 Click="RbVisualizer_Click"
-                                 GroupName="ViewMode" Style="{StaticResource {x:Type ToggleButton}}"
-                                 Background="#1A1E29" Foreground="#E6EDF3" BorderBrush="#2B3346"
-                                 Height="34" Padding="14,0" Margin="0,0,6,0" FontWeight="SemiBold" Cursor="Hand" />
-
-                    <RadioButton x:Name="RbList" Content="📋 Modo Lista" 
-                                 IsChecked="{Binding IsListViewMode, Mode=OneWay}"
-                                 Click="RbList_Click"
-                                 GroupName="ViewMode" Style="{StaticResource {x:Type ToggleButton}}"
-                                 Background="#1A1E29" Foreground="#E6EDF3" BorderBrush="#2B3346"
-                                 Height="34" Padding="14,0" FontWeight="SemiBold" Cursor="Hand" />
-                </StackPanel>
-
-                <!-- BUSCA INSTANTÂNEA -->
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="20,0,20,0">
-                    <Border Background="#161B26" BorderBrush="#2B3346" BorderThickness="1" CornerRadius="6" Height="34" Width="220" Padding="8,0">
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0,0,0">
+                    <Border Background="#151924" BorderBrush="#272F42" BorderThickness="1" CornerRadius="6" Height="32" Width="260" Padding="8,0">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
@@ -134,156 +121,149 @@
                         </Grid>
                     </Border>
                 </StackPanel>
-
-                <!-- Métricas da Direita -->
-                <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#12231C" BorderBrush="#234E3B" BorderThickness="1" CornerRadius="6" Padding="12,6" Margin="0,0,12,0">
-                        <TextBlock Text="{Binding FreedSpaceText, Mode=OneWay}" Foreground="#3FB950" FontWeight="SemiBold" FontSize="12" />
-                    </Border>
-
-                    <Border Background="#1A1E29" BorderBrush="#2B3346" BorderThickness="1" CornerRadius="6" Padding="14,6">
-                        <TextBlock Text="{Binding CounterText, Mode=OneWay}" Foreground="#C9D1D9" FontWeight="Bold" FontSize="13" />
-                    </Border>
-                </StackPanel>
             </Grid>
         </Border>
 
-        <!-- 2. BARRA DE CATEGORIAS E FILTROS RÁPIDOS -->
-        <Border Grid.Row="2" Background="#0F1118" BorderBrush="#1D2230" BorderThickness="0,0,0,1" Padding="14,8">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <Border Grid.Row="2" Background="#0C0E14" BorderBrush="#1C212E" BorderThickness="0,0,0,1" Padding="14,6">
+            <StackPanel Orientation="Vertical">
 
-                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="Filtrar por:" Foreground="#7A8498" FontSize="12" VerticalAlignment="Center" Margin="0,0,10,0" FontWeight="SemiBold" />
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,5">
+                    <TextBlock Text="Filtrar por:" Foreground="#7A8498" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" />
 
-                    <!-- Todos -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Todos"
                             Background="#1E2330" Foreground="#F0F6FC" BorderBrush="#31394D" BorderThickness="1"
-                            Padding="12,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12" FontWeight="SemiBold">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Todos (" />
-                            <TextBlock Text="{Binding CountTotal, Mode=OneWay}" FontWeight="Bold" Foreground="#F0F6FC" />
-                            <TextBlock Text=")" />
+                            Padding="10,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11" FontWeight="SemiBold">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Todos (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountTotal, Mode=OneWay}" FontWeight="Bold" Foreground="#F0F6FC" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Imagens -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Imagens"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🖼️ Imagens (" />
-                            <TextBlock Text="{Binding CountImages, Mode=OneWay}" FontWeight="Bold" Foreground="#38BDF8" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="🖼️ Imagens (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountImages, Mode=OneWay}" FontWeight="Bold" Foreground="#38BDF8" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Vídeos -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Vídeos"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="🎬 Vídeos (" />
-                            <TextBlock Text="{Binding CountVideos, Mode=OneWay}" FontWeight="Bold" Foreground="#A855F7" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="🎬 Vídeos (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountVideos, Mode=OneWay}" FontWeight="Bold" Foreground="#A855F7" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Executáveis -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Executáveis"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="⚙️ Executáveis / .EXE (" />
-                            <TextBlock Text="{Binding CountExecutables, Mode=OneWay}" FontWeight="Bold" Foreground="#F59E0B" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="⚙️ Executáveis (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountExecutables, Mode=OneWay}" FontWeight="Bold" Foreground="#F59E0B" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Compactados -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Compactados"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📦 Compactados (" />
-                            <TextBlock Text="{Binding CountArchives, Mode=OneWay}" FontWeight="Bold" Foreground="#10B981" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="📦 Compactados (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountArchives, Mode=OneWay}" FontWeight="Bold" Foreground="#10B981" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Documentos -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Documentos"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📄 Documentos &amp; PDF (" />
-                            <TextBlock Text="{Binding CountDocuments, Mode=OneWay}" FontWeight="Bold" Foreground="#EC4899" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="📄 Documentos &amp; PDF (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountDocuments, Mode=OneWay}" FontWeight="Bold" Foreground="#EC4899" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Duplicados -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Duplicados"
                             Background="#241424" Foreground="#F472B6" BorderBrush="#5B1E48" BorderThickness="1"
-                            Padding="10,5" Margin="0,0,8,0" Cursor="Hand" FontSize="12" FontWeight="SemiBold">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="👯 Duplicados (" />
-                            <TextBlock Text="{Binding CountDuplicates, Mode=OneWay}" FontWeight="Bold" Foreground="#F472B6" />
-                            <TextBlock Text=")" />
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11" FontWeight="SemiBold">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="👯 Duplicados (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountDuplicates, Mode=OneWay}" FontWeight="Bold" Foreground="#F472B6" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
-                    <!-- Outros -->
                     <Button Command="{Binding SetCategoryCommand}" CommandParameter="Outros"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="10,5" Cursor="Hand" FontSize="12">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📁 Outros (" />
-                            <TextBlock Text="{Binding CountOthers, Mode=OneWay}" FontWeight="Bold" Foreground="#94A3B8" />
-                            <TextBlock Text=")" />
+                            Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                            Padding="8,4" Margin="0,2,6,2" Cursor="Hand" FontSize="11">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="📁 Outros (" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding CountOthers, Mode=OneWay}" FontWeight="Bold" Foreground="#94A3B8" VerticalAlignment="Center" />
+                            <TextBlock Text=")" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
+                </WrapPanel>
 
-                    <TextBlock Text="Filtro Ativo: " Foreground="#64748B" FontSize="12" VerticalAlignment="Center" Margin="16,0,4,0" />
-                    <Border Background="#212638" CornerRadius="4" Padding="6,2">
-                        <TextBlock Text="{Binding SelectedCategory, Mode=OneWay}" Foreground="#79C0FF" FontSize="11" FontWeight="Bold" />
-                    </Border>
-                </StackPanel>
+                <Grid Margin="0,2,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                <!-- FILTROS RÁPIDOS DE TAMANHO -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                    <TextBlock Text="Tamanho:" Foreground="#7A8498" FontSize="11" VerticalAlignment="Center" Margin="0,0,6,0" FontWeight="SemiBold" />
+                    <WrapPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Tamanho:" Foreground="#7A8498" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,8,0" />
 
-                    <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="Todos" Content="Todos"
-                            Background="#181B26" Foreground="#CBD5E1" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="8,3" Margin="0,0,4,0" Cursor="Hand" FontSize="11" />
+                        <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="Todos" Content="Todos"
+                                Background="#161A24" Foreground="#CBD5E1" BorderBrush="#252C3D" BorderThickness="1"
+                                Padding="8,3" Margin="0,2,5,2" Cursor="Hand" FontSize="11" />
 
-                    <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 1 GB" Content="🔥 > 1 GB"
-                            Background="#2A1417" Foreground="#F87171" BorderBrush="#5F1E24" BorderThickness="1"
-                            Padding="8,3" Margin="0,0,4,0" Cursor="Hand" FontSize="11" FontWeight="SemiBold" />
+                        <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 1 GB" Content="> 1 GB"
+                                Background="#261214" Foreground="#F87171" BorderBrush="#541B20" BorderThickness="1"
+                                Padding="8,3" Margin="0,2,5,2" Cursor="Hand" FontSize="11" FontWeight="SemiBold" />
 
-                    <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 100 MB" Content="📦 > 100 MB"
-                            Background="#281F14" Foreground="#FBBF24" BorderBrush="#5B3E18" BorderThickness="1"
-                            Padding="8,3" Margin="0,0,4,0" Cursor="Hand" FontSize="11" />
+                        <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 100 MB" Content="> 100 MB"
+                                Background="#261C12" Foreground="#FBBF24" BorderBrush="#543815" BorderThickness="1"
+                                Padding="8,3" Margin="0,2,5,2" Cursor="Hand" FontSize="11" />
 
-                    <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 10 MB" Content="📄 > 10 MB"
-                            Background="#14221E" Foreground="#34D399" BorderBrush="#1C4B3F" BorderThickness="1"
-                            Padding="8,3" Margin="0,0,4,0" Cursor="Hand" FontSize="11" />
+                        <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="> 10 MB" Content="> 10 MB"
+                                Background="#12201C" Foreground="#34D399" BorderBrush="#184439" BorderThickness="1"
+                                Padding="8,3" Margin="0,2,5,2" Cursor="Hand" FontSize="11" />
 
-                    <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="&lt; 5 MB" Content="&lt; 5 MB"
-                            Background="#181B26" Foreground="#94A3B8" BorderBrush="#272E3F" BorderThickness="1"
-                            Padding="8,3" Cursor="Hand" FontSize="11" />
-                </StackPanel>
-            </Grid>
+                        <Button Command="{Binding SetSizeFilterCommand}" CommandParameter="&lt; 5 MB" Content="&lt; 5 MB"
+                                Background="#161A24" Foreground="#94A3B8" BorderBrush="#252C3D" BorderThickness="1"
+                                Padding="8,3" Margin="0,2,5,2" Cursor="Hand" FontSize="11" />
+                    </WrapPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Background="#161D2B" BorderBrush="#263854" BorderThickness="1" CornerRadius="4" Padding="8,3" Margin="0,0,8,0">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Filtro Ativo: " Foreground="#8B949E" FontSize="11" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding SelectedCategory}" Foreground="#38BDF8" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Visibility="{Binding DuplicateWastedText, Converter={StaticResource NotEmptyStringToVis}}"
+                                Background="#2D1224" BorderBrush="#6B2154" BorderThickness="1" CornerRadius="4" Padding="8,3">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="Duplicados: " Foreground="#F472B6" FontSize="11" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding DuplicateWastedText}" Foreground="#F472B6" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
         </Border>
 
-        <!-- 3. ÁREA CENTRAL -->
         <Grid Grid.Row="3" Background="#080A0E">
 
-            <!-- BANNER FLUTUANTE DE DESFAZER (CTRL+Z) -->
             <Border Visibility="{Binding IsUndoToastVisible, Converter={StaticResource BoolToVis}}"
                     HorizontalAlignment="Center" VerticalAlignment="Bottom"
                     Background="#E6101626" BorderBrush="#3B82F6" BorderThickness="1.5"
@@ -304,31 +284,52 @@
                 </StackPanel>
             </Border>
 
-            <!-- ===================== MODO 1: VISUALIZADOR ===================== -->
             <Grid Visibility="{Binding IsListViewMode, Converter={StaticResource InverseBoolToVis}}">
 
-                <!-- Estado Vazio -->
                 <Border Visibility="{Binding CurrentItem, Converter={StaticResource NullToVis}}"
                         HorizontalAlignment="Center" VerticalAlignment="Center"
-                        Background="#11141C" BorderBrush="#222838" BorderThickness="1.5"
-                        CornerRadius="16" Padding="44,36" MaxWidth="580">
+                        Background="#10131B" BorderBrush="#1F2535" BorderThickness="1"
+                        CornerRadius="12" Padding="40,32" MaxWidth="540">
                     <StackPanel HorizontalAlignment="Center">
-                        <TextBlock Text="📂" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,16" />
-                        <TextBlock Text="Nenhum arquivo na visualização" FontWeight="Bold" FontSize="18" Foreground="#F0F6FC" HorizontalAlignment="Center" Margin="0,0,0,8" />
-                        <TextBlock Text="Escolha uma pasta ou mude a categoria de filtro acima." FontSize="13" Foreground="#8B949E" HorizontalAlignment="Center" Margin="0,0,0,24" />
+                        <TextBlock Text="📂" FontSize="44" HorizontalAlignment="Center" Margin="0,0,0,14" />
+                        <TextBlock Text="Nenhum arquivo na visualização" FontWeight="Bold" FontSize="17" Foreground="#F0F6FC" HorizontalAlignment="Center" Margin="0,0,0,6" />
+                        <TextBlock Text="Escolha uma pasta ou mude a categoria de filtro acima." FontSize="12" Foreground="#8B949E" HorizontalAlignment="Center" Margin="0,0,0,24" />
                         
-                        <Border Background="#161B26" BorderBrush="#262D3D" BorderThickness="1" CornerRadius="10" Padding="18,14">
-                            <StackPanel>
-                                <TextBlock Text="⚡ Atalhos Rápidos:" FontWeight="SemiBold" Foreground="#A2ABB8" FontSize="12" Margin="0,0,0,8" />
-                                <TextBlock Text="• Seta Direita / D : Próximo" Foreground="#7D8590" FontSize="12" Margin="0,0,0,4" />
-                                <TextBlock Text="• Seta Esquerda / A : Anterior" Foreground="#7D8590" FontSize="12" Margin="0,0,0,4" />
-                                <TextBlock Text="• Delete / X : Move para a Lixeira do Windows com segurança" Foreground="#F85149" FontWeight="Medium" FontSize="12" />
+                        <Border Background="#141824" BorderBrush="#232B3E" BorderThickness="1" CornerRadius="8" Padding="20,16" Width="440">
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="Atalhos Rápidos de Teclado" FontWeight="Bold" Foreground="#C9D1D9" FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,14" />
+                                
+                                <Grid HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="220" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Border Grid.Row="0" Grid.Column="0" Background="#1C2333" BorderBrush="#2F3B56" BorderThickness="1" CornerRadius="4" Padding="6,3" Margin="0,2,10,4" HorizontalAlignment="Stretch">
+                                        <TextBlock Text="D  ou  Seta Direita" Foreground="#79C0FF" FontSize="11" FontWeight="Bold" TextAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Próximo arquivo" Foreground="#8B949E" FontSize="12" VerticalAlignment="Center" Margin="0,2,0,4" />
+
+                                    <Border Grid.Row="1" Grid.Column="0" Background="#1C2333" BorderBrush="#2F3B56" BorderThickness="1" CornerRadius="4" Padding="6,3" Margin="0,2,10,4" HorizontalAlignment="Stretch">
+                                        <TextBlock Text="A  ou  Seta Esquerda" Foreground="#79C0FF" FontSize="11" FontWeight="Bold" TextAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Grid.Row="1" Grid.Column="1" Text="Arquivo anterior" Foreground="#8B949E" FontSize="12" VerticalAlignment="Center" Margin="0,2,0,4" />
+
+                                    <Border Grid.Row="2" Grid.Column="0" Background="#331416" BorderBrush="#5E1D22" BorderThickness="1" CornerRadius="4" Padding="6,3" Margin="0,2,10,2" HorizontalAlignment="Stretch">
+                                        <TextBlock Text="Delete  ou  X" Foreground="#F87171" FontSize="11" FontWeight="Bold" TextAlignment="Center" />
+                                    </Border>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Mover para a Lixeira segura" Foreground="#F87171" FontSize="12" VerticalAlignment="Center" Margin="0,2" />
+                                </Grid>
                             </StackPanel>
                         </Border>
                     </StackPanel>
                 </Border>
 
-                <!-- IMAGEM / PSD / PREVIEW DE PDF -->
                 <Grid Visibility="{Binding IsImageMode, Converter={StaticResource BoolToVis}}">
                     <Image x:Name="ImageViewer" 
                            Source="{Binding CurrentImageSource, Mode=OneWay}" 
@@ -337,7 +338,6 @@
                            RenderOptions.BitmapScalingMode="HighQuality"
                            Margin="10" />
 
-                    <!-- Badge elegante para quando for PDF -->
                     <Border HorizontalAlignment="Right" VerticalAlignment="Top" 
                             Background="#D9161B22" BorderBrush="#30363D" BorderThickness="1"
                             CornerRadius="8" Padding="12,6" Margin="0,16,16,0"
@@ -352,7 +352,6 @@
                     </Border>
                 </Grid>
 
-                <!-- VÍDEO -->
                 <Grid Visibility="{Binding IsVideoMode, Converter={StaticResource BoolToVis}}">
                     <MediaElement x:Name="VideoPlayer"
                                   LoadedBehavior="Manual"
@@ -364,7 +363,6 @@
                                   MediaOpened="VideoPlayer_MediaOpened"
                                   MediaEnded="VideoPlayer_MediaEnded" />
 
-                    <!-- Barra de Controles do Vídeo -->
                     <Border VerticalAlignment="Bottom" HorizontalAlignment="Center" 
                             Background="#E611141C" CornerRadius="10" Padding="16,8" Margin="0,0,0,24"
                             BorderBrush="#2C3446" BorderThickness="1">
@@ -386,7 +384,6 @@
                     </Border>
                 </Grid>
 
-                <!-- INSPETOR DE ARQUIVOS ZIP (CONTEÚDO INTERNO DO ZIP) -->
                 <Grid Visibility="{Binding IsZipMode, Converter={StaticResource BoolToVis}}">
                     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                             Background="#11141C" BorderBrush="#252C3D" BorderThickness="1.5"
@@ -398,7 +395,6 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
 
-                            <!-- Cabeçalho do ZIP -->
                             <StackPanel Grid.Row="0" Margin="0,0,0,16">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,6">
                                     <TextBlock Text="📦" FontSize="26" Margin="0,0,10,0" VerticalAlignment="Center" />
@@ -418,7 +414,6 @@
                                 </TextBlock>
                             </StackPanel>
 
-                            <!-- Tabela interna de arquivos do ZIP -->
                             <Border Grid.Row="1" Background="#0A0C11" BorderBrush="#1F2533" BorderThickness="1" CornerRadius="8">
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -427,7 +422,6 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <!-- Cabeçalho das Colunas -->
                                     <Border Grid.Row="0" Background="#141822" BorderBrush="#1E2536" BorderThickness="0,0,0,1" Padding="12,0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
@@ -474,7 +468,6 @@
                                 </Grid>
                             </Border>
 
-                            <!-- Botões de Ação do ZIP -->
                             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
                                 <Button Content="📂 Abrir no Explorer" 
                                         Command="{Binding OpenInExplorerCommand}"
@@ -490,7 +483,6 @@
                     </Border>
                 </Grid>
 
-                <!-- EXECUTÁVEL / ARQUIVO GENÉRICO -->
                 <Grid Visibility="{Binding IsGenericFileMode, Converter={StaticResource BoolToVis}}">
                     <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                             Background="#11141C" BorderBrush="#252C3D" BorderThickness="1.5"
@@ -532,9 +524,32 @@
 
             </Grid>
 
-            <!-- ===================== MODO 2: LISTA / TABELA ===================== -->
             <Grid Visibility="{Binding IsListViewMode, Converter={StaticResource BoolToVis}}">
-                <ListView x:Name="FileListView"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" Background="#0F121A" BorderBrush="#1C2230" BorderThickness="0,0,0,1" Padding="28,8,28,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="110" />
+                            <ColumnDefinition Width="140" />
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="1" Text="Nome do Arquivo" Foreground="#7D8590" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="4,0,0,0" />
+                        <TextBlock Grid.Column="2" Text="Categoria" Foreground="#7D8590" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Text="Tamanho" Foreground="#7D8590" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="4" Text="Modificado em" Foreground="#7D8590" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="5" Text="Ações" Foreground="#7D8590" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                    </Grid>
+                </Border>
+
+                <ListView Grid.Row="1" x:Name="FileListView"
                           ItemsSource="{Binding Items, Mode=OneWay}"
                           SelectedItem="{Binding CurrentItem, Mode=TwoWay}"
                           Background="#080A0E" BorderThickness="0"
@@ -615,8 +630,7 @@
 
         </Grid>
 
-        <!-- 4. BARRA INFERIOR DE CONTROLES E DETALHES -->
-        <Border Grid.Row="4" Background="#13161F" BorderBrush="#222736" BorderThickness="0,1,0,0" Padding="18,12">
+        <Border Grid.Row="4" Background="#11141C" BorderBrush="#1F2535" BorderThickness="0,1,0,0" Padding="18,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -624,61 +638,71 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Detalhes do Arquivo Atual -->
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                    <TextBlock Text="Nenhum arquivo ativo" Foreground="#6E7681" FontSize="13" FontWeight="SemiBold"
-                               Visibility="{Binding CurrentItem, Converter={StaticResource NullToVis}}" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                                Visibility="{Binding CurrentItem, Converter={StaticResource NullToVis}}">
+                        <TextBlock Text="📊 " FontSize="12" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding CounterText, Mode=OneWay}" Foreground="#8B949E" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+                        <TextBlock Text=" arquivos listados" Foreground="#64748B" FontSize="12" VerticalAlignment="Center" />
+                    </StackPanel>
 
                     <StackPanel Visibility="{Binding CurrentItem, Converter={StaticResource NotNullToVis}}">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
-                            <TextBlock Text="{Binding CurrentItem.FileName, Mode=OneWay}" FontWeight="Bold" FontSize="14" Foreground="#F0F6FC" TextTrimming="CharacterEllipsis" MaxWidth="360" />
-                            <Border Background="#212636" CornerRadius="4" Padding="6,2" Margin="8,0,0,0">
-                                <TextBlock Text="{Binding CurrentItem.Extension, Mode=OneWay}" Foreground="#79C0FF" FontSize="11" FontWeight="Bold" />
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                            <TextBlock Text="{Binding CurrentItem.FileName, Mode=OneWay}" FontWeight="Bold" FontSize="13" Foreground="#F0F6FC" TextTrimming="CharacterEllipsis" MaxWidth="340" VerticalAlignment="Center" />
+                            <Border Background="#1C2438" BorderBrush="#2B3A5A" BorderThickness="1" CornerRadius="4" Padding="6,1" Margin="8,0,0,0">
+                                <TextBlock Text="{Binding CurrentItem.Extension, Mode=OneWay}" Foreground="#79C0FF" FontSize="10" FontWeight="Bold" />
                             </Border>
                         </StackPanel>
-                        <TextBlock Foreground="#8B949E" FontSize="12">
-                            <Run Text="{Binding CurrentItem.FormattedSize, Mode=OneWay}" FontWeight="SemiBold" Foreground="#58A6FF" />
+                        <TextBlock Foreground="#8B949E" FontSize="11">
+                            <Run Text="{Binding CurrentItem.FormattedSize, Mode=OneWay}" FontWeight="Bold" Foreground="#34D399" />
                             <Run Text=" • " />
                             <Run Text="{Binding CurrentItem.FormattedDate, Mode=OneWay}" />
+                            <Run Text=" • Item " />
+                            <Run Text="{Binding CounterText, Mode=OneWay}" FontWeight="SemiBold" Foreground="#CBD5E1" />
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
 
-                <!-- BOTÕES CENTRAIS DE NAVEGAÇÃO E LIXEIRA -->
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     
                     <Button Content="◀  Anterior (A)" 
                             Command="{Binding PreviousCommand}"
-                            Background="#1A1E29" Foreground="#E6EDF3" BorderBrush="#2B3346" BorderThickness="1"
-                            Height="40" Padding="16,0" Margin="0,0,10,0"
-                            FontWeight="SemiBold" FontSize="13" Cursor="Hand" />
+                            Background="#181D29" Foreground="#E6EDF3" BorderBrush="#2A3347" BorderThickness="1"
+                            Height="38" Padding="14,0" Margin="0,0,8,0"
+                            FontWeight="SemiBold" FontSize="12" Cursor="Hand" />
 
                     <Button Content="🗑️  Lixeira (Del)" 
                             Command="{Binding DeleteCurrentCommand}"
-                            Background="#B62324" Foreground="#FFFFFF" BorderBrush="#DA3633" BorderThickness="1"
-                            Height="42" Padding="20,0" Margin="0,0,10,0"
-                            FontWeight="Bold" FontSize="13" Cursor="Hand" />
+                            Background="#C52227" Foreground="#FFFFFF" BorderBrush="#E03131" BorderThickness="1"
+                            Height="38" Padding="18,0" Margin="0,0,8,0"
+                            FontWeight="Bold" FontSize="12" Cursor="Hand" />
 
                     <Button Content="Próximo (D)  ▶" 
                             Command="{Binding NextCommand}"
-                            Background="#1A1E29" Foreground="#E6EDF3" BorderBrush="#2B3346" BorderThickness="1"
-                            Height="40" Padding="16,0" Margin="0,0,10,0"
-                            FontWeight="SemiBold" FontSize="13" Cursor="Hand" />
+                            Background="#181D29" Foreground="#E6EDF3" BorderBrush="#2A3347" BorderThickness="1"
+                            Height="38" Padding="14,0" Margin="0,0,8,0"
+                            FontWeight="SemiBold" FontSize="12" Cursor="Hand" />
 
                     <Button Content="↩️  Desfazer (Ctrl+Z)" 
                             Command="{Binding UndoDeleteCommand}"
                             IsEnabled="{Binding CanUndo}"
-                            Background="#1E293B" Foreground="#94A3B8" BorderBrush="#334155" BorderThickness="1"
-                            Height="40" Padding="14,0"
-                            FontWeight="SemiBold" FontSize="12" Cursor="Hand" />
+                            Background="#192233" Foreground="#94A3B8" BorderBrush="#293952" BorderThickness="1"
+                            Height="38" Padding="12,0"
+                            FontWeight="SemiBold" FontSize="11" Cursor="Hand" />
                 </StackPanel>
 
-                <!-- Ações da Direita -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Border Background="#102319" BorderBrush="#1C4A31" BorderThickness="1" CornerRadius="6" Padding="10,6" Margin="0,0,10,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="♻️ " FontSize="11" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding FreedSpaceText, Mode=OneWay}" Foreground="#34D399" FontSize="11" FontWeight="Bold" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
                     <Button Content="📂  Abrir no Explorer" 
                             Command="{Binding OpenInExplorerCommand}"
-                            Background="#1A1E29" Foreground="#8B949E" BorderBrush="#2B3346" BorderThickness="1"
-                            Height="36" Padding="14,0" Cursor="Hand" 
+                            Background="#181D29" Foreground="#CBD5E1" BorderBrush="#2A3347" BorderThickness="1"
+                            Height="34" Padding="12,0" Cursor="Hand" FontSize="11" FontWeight="SemiBold"
                             Visibility="{Binding CurrentItem, Converter={StaticResource NotNullToVis}}" />
                 </StackPanel>
             </Grid>
