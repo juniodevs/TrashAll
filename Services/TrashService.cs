@@ -40,7 +40,7 @@ namespace TrashAll.Services
                 {
                     if (File.Exists(originalFilePath))
                     {
-                        return (true, (string?)null); // Já está no disco
+                        return (true, (string?)null);
                     }
 
                     string fileName = Path.GetFileName(originalFilePath);
@@ -58,7 +58,7 @@ namespace TrashAll.Services
                         return (false, "Não foi possível criar instância do Windows Shell.");
                     }
 
-                    dynamic? recycleBin = shell.NameSpace(10); // 10 = CSIDL_BITBUCKET
+                    dynamic? recycleBin = shell.NameSpace(10);
                     if (recycleBin == null)
                     {
                         return (false, "Não foi possível abrir a Lixeira do Windows.");
@@ -75,7 +75,7 @@ namespace TrashAll.Services
                                 if (!string.IsNullOrEmpty(origLoc) && 
                                     !string.Equals(origLoc.Trim(), dirName.Trim(), StringComparison.OrdinalIgnoreCase))
                                 {
-                                    continue; // Arquivo homônimo de outra pasta
+                                    continue;
                                 }
                             }
 
@@ -87,7 +87,6 @@ namespace TrashAll.Services
                                 {
                                     verb.DoIt();
 
-                                    // Aguarda o arquivo reaparecer no disco (até 1s)
                                     for (int i = 0; i < 20; i++)
                                     {
                                         if (File.Exists(originalFilePath))

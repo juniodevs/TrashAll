@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -91,7 +91,6 @@ namespace TrashAll.Services
                         }
                         catch
                         {
-                            // Arquivo inacessível
                         }
                     }
 
@@ -103,7 +102,6 @@ namespace TrashAll.Services
                 }
                 catch
                 {
-                    // Erro ao enumerar raiz
                 }
             }, cancellationToken);
         }

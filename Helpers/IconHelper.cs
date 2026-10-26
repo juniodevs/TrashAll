@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -45,7 +45,6 @@ namespace TrashAll.Helpers
         {
             string ext = Path.GetExtension(filePath);
 
-            // Cacheia ícones comuns por extensão (exceto executáveis que têm ícones personalizados)
             if (!string.Equals(ext, ".exe", StringComparison.OrdinalIgnoreCase) &&
                 _extCache.TryGetValue(ext, out var cached))
             {
@@ -87,7 +86,6 @@ namespace TrashAll.Helpers
             }
             catch
             {
-                // Fallback silencioso se o shell falhar
             }
 
             return null;

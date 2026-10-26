@@ -68,7 +68,6 @@ namespace TrashAll
                     }
                     catch
                     {
-                        // Formato de vídeo não suportado nativamente
                     }
                 }
                 else
@@ -204,7 +203,6 @@ namespace TrashAll
         {
             if (e.OriginalSource is System.Windows.Controls.TextBox) return;
 
-            // Atalho de Desfazer: Ctrl + Z
             if (e.Key == Key.Z && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
             {
                 if (ViewModel.CanUndo)

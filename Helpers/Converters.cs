@@ -5,9 +5,6 @@ using System.Windows.Data;
 
 namespace TrashAll.Helpers
 {
-    /// <summary>
-    /// Retorna Visible se o valor for NULO (ideal para Empty State)
-    /// </summary>
     public class NullToVisibilityConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -21,9 +18,6 @@ namespace TrashAll.Helpers
         }
     }
 
-    /// <summary>
-    /// Retorna Visible se o valor NÃO for nulo (ideal para dados existentes)
-    /// </summary>
     public class NotNullToVisibilityConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -37,9 +31,6 @@ namespace TrashAll.Helpers
         }
     }
 
-    /// <summary>
-    /// Inverte um booleano para Visibilidade
-    /// </summary>
     public class InverseBoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -57,9 +48,6 @@ namespace TrashAll.Helpers
         }
     }
 
-    /// <summary>
-    /// Retorna Visible se a string não for vazia
-    /// </summary>
     public class NotEmptyStringToVisibilityConverter : IValueConverter
     {
         public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

@@ -28,7 +28,6 @@ namespace TrashAll.Services
                 var result = new DuplicateDetectionResult();
                 if (items == null || items.Count == 0) return result;
 
-                // Passo 1: Filtrar apenas arquivos com tamanho > 0 que possuem mesmo tamanho que outro arquivo
                 var sizeGroups = items
                     .Where(x => x.FileSizeBytes > 0)
                     .GroupBy(x => x.FileSizeBytes)
@@ -37,7 +36,6 @@ namespace TrashAll.Services
 
                 if (sizeGroups.Count == 0)
                 {
-                    // Nenhum arquivo com mesmo tamanho
                     foreach (var item in items)
                     {
                         item.IsDuplicate = false;
@@ -47,7 +45,6 @@ namespace TrashAll.Services
                     return result;
                 }
 
-                // Resetar estados anteriores
                 foreach (var item in items)
                 {
                     item.IsDuplicate = false;
@@ -55,7 +52,6 @@ namespace TrashAll.Services
                     item.IsDuplicateCopy = false;
                 }
 
-                // Passo 2: Calcular hash rápido dos candidatos
                 var hashGroups = new Dictionary<string, List<MediaItem>>(StringComparer.Ordinal);
 
                 foreach (var group in sizeGroups)
@@ -80,7 +76,6 @@ namespace TrashAll.Services
                     }
                 }
 
-                // Passo 3: Marcar os duplicados reais
                 int duplicateFilesCount = 0;
                 int duplicateCopiesCount = 0;
                 long wastedBytes = 0;
@@ -90,7 +85,6 @@ namespace TrashAll.Services
                     var groupItems = kvp.Value;
                     if (groupItems.Count > 1)
                     {
-                        // Ordena pelo mais antigo (considerado original)
                         var sorted = groupItems.OrderBy(x => x.DateModified).ToList();
 
                         for (int i = 0; i < sorted.Count; i++)
@@ -98,7 +92,7 @@ namespace TrashAll.Services
                             var it = sorted[i];
                             it.IsDuplicate = true;
                             it.DuplicateGroupId = kvp.Key;
-                            it.IsDuplicateCopy = (i > 0); // O primeiro é o original, os outros são cópias
+                            it.IsDuplicateCopy = (i > 0);
                             duplicateFilesCount++;
 
                             if (i > 0)
@@ -127,16 +121,14 @@ namespace TrashAll.Services
                 using var sha256 = SHA256.Create();
                 using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-                const int chunkSize = 64 * 1024; // 64 KB
+                const int chunkSize = 64 * 1024;
 
                 if (fileSize <= chunkSize * 2)
                 {
-                    // Arquivo pequeno: hash completo
                     byte[] hash = sha256.ComputeHash(fs);
                     return Convert.ToHexString(hash);
                 }
 
-                // Arquivo grande: primeiro bloco de 64KB + último bloco de 64KB
                 byte[] buffer = new byte[chunkSize * 2];
                 int readFirst = fs.Read(buffer, 0, chunkSize);
 
