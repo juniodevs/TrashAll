@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161B26"/>
+      <stop offset="100%" stop-color="#0B0D13"/>
+    </linearGradient>
+    
+    <!-- Accent Gradient -->
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0284C7"/>
+    </linearGradient>
+
+    <!-- Emerald / Clean Gradient -->
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+
+    <!-- Lid / Trash Gradient -->
+    <linearGradient id="lidGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="50%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Container Base -->
+  <rect x="10" y="10" width="180" height="180" rx="44" fill="url(#bgGrad)" stroke="#222B3D" stroke-width="3"/>
+
+  <!-- Subtle Glow Effect in the Background -->
+  <circle cx="100" cy="100" r="50" fill="#38BDF8" opacity="0.12" filter="url(#glow)"/>
+
+  <!-- Trash Can Lid -->
+  <path d="M58 72C58 69.7909 59.7909 68 62 68H138C140.209 68 142 69.7909 142 72V76C142 77.1046 141.105 78 140 78H60C58.8954 78 58 77.1046 58 76V72Z" fill="url(#lidGrad)"/>
+  
+  <!-- Lid Handle -->
+  <path d="M85 68V60C85 57.7909 86.7909 56 89 56H111C113.209 56 115 57.7909 115 60V68" stroke="url(#lidGrad)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Trash Can Body -->
+  <path d="M68 86L75 146C75.5 150.5 79.5 154 84 154H116C120.5 154 124.5 150.5 125 146L132 86H68Z" fill="#131824" stroke="url(#cyanGrad)" stroke-width="4"/>
+
+  <!-- Ribs / Vertical Can Lines -->
+  <line x1="88" y1="98" x2="90" y2="142" stroke="#2B364D" stroke-width="4" stroke-linecap="round"/>
+  <line x1="100" y1="98" x2="100" y2="142" stroke="#38BDF8" stroke-width="4" stroke-linecap="round" opacity="0.9"/>
+  <line x1="112" y1="98" x2="110" y2="142" stroke="#2B364D" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Lightning / Fast Sparkle (Speed & Instant Filter) -->
+  <path d="M142 46L132 60H144L134 76" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Safe Shield / Check Sparkle (Ctrl+Z / Safe) -->
+  <circle cx="62" cy="138" r="16" fill="#064E3B" stroke="#10B981" stroke-width="2.5"/>
+  <path d="M56 138L60 142L68 134" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

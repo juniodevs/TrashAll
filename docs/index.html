@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrashAll: Utilitário Rápido de Triagem e Limpeza para Windows</title>
+  <meta name="description" content="Utilitário para Windows eficiente, rápido, pequeno e portátil. Faça a triagem de pastas pesadas de fotos, vídeos e downloads usando apenas o teclado.">
+  <meta name="keywords" content="trashall, utilitário windows, limpeza de disco, triagem de arquivos, duplicados sha-256, teclado, windows 11, portátil">
+  <meta property="og:title" content="TrashAll: Utilitário de Triagem e Limpeza para Windows">
+  <meta property="og:description" content="100% Gratuito. Triagem rápida de arquivos usando apenas o teclado no Windows.">
+  <meta property="og:image" content="assets/images/hero-preview.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="navbar" id="topNav">
+    <div class="nav-container">
+      <a href="#" class="brand">
+        <img src="assets/images/logo.svg" alt="TrashAll Logo" class="brand-icon" width="26" height="26">
+        <span class="brand-title">TrashAll</span>
+        <span class="brand-sub">Utilitário para Windows</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#overview" class="nav-item active">Visão Geral</a>
+        <a href="#features" class="nav-item">Recursos</a>
+        <a href="#shortcuts" class="nav-item">Atalhos</a>
+        <a href="#screenshots" class="nav-item">Capturas</a>
+        <a href="#download" class="nav-item">Download</a>
+        <a href="https://github.com/juniodevs/TrashAll" target="_blank" rel="noopener noreferrer" class="nav-item nav-github">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-section" id="overview">
+    <div class="hero-container">
+      
+      <div class="hero-text-block">
+        <div class="hero-tag-badge">100% Gratuito e de Código Aberto</div>
+        <h1 class="hero-heading">
+          Triagem e limpeza rápida de arquivos de mídia no Windows.
+        </h1>
+        <p class="hero-intro">
+          Passe o pente fino em pastas cheias de fotos, vídeos e capturas de tela usando apenas o teclado. Rápido, leve e com total segurança da Lixeira do Windows.
+        </p>
+
+        <ul class="hero-checklist">
+          <li>Navegação contínua no teclado com <kbd>D</kbd>, <kbd>A</kbd>, <kbd>Del</kbd> e <kbd>Ctrl+Z</kbd></li>
+          <li>Varredura assíncrona que exibe o primeiro arquivo em menos de 1 segundo</li>
+          <li>Detecção integrada de duplicatas por comparação de hash SHA-256</li>
+          <li>Envio seguro para a Lixeira do Windows com restauração imediata</li>
+          <li>Leitor de arquivos compactados (ZIP, JAR, APK) sem descompactar no disco</li>
+          <li>Totalmente portátil: execute direto de qualquer pasta ou pendrive</li>
+        </ul>
+
+        <div class="hero-action-box">
+          <a href="#download" class="btn btn-download-hero" id="heroDownloadBtn">
+            <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Download Versão Portátil (64-bit)</span>
+          </a>
+          <div class="hero-download-note" id="heroVersionLabel">
+            Versão v1.0.0 • Windows 10 e Windows 11 (64-bit)
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-window-block">
+        <div class="window-frame">
+          <div class="window-header">
+            <div class="window-title-group">
+              <img src="assets/images/logo.svg" alt="TrashAll Icon" width="14" height="14">
+              <span class="window-title-text">TrashAll: Limpeza e Triagem</span>
+            </div>
+            <div class="window-buttons">
+              <span>&#x2212;</span>
+              <span>□</span>
+              <span class="btn-win-close">✕</span>
+            </div>
+          </div>
+          <div class="window-body">
+            <img src="assets/images/hero-preview.jpg" alt="Interface Principal do TrashAll">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="quick-specs-bar">
+    <div class="site-container specs-grid">
+      <div class="spec-col">
+        <div class="spec-label">Plataforma</div>
+        <div class="spec-val">Windows 10 / 11 (64-bit)</div>
+      </div>
+      <div class="spec-col">
+        <div class="spec-label">Inicialização</div>
+        <div class="spec-val">&lt; 1 segundo</div>
+      </div>
+      <div class="spec-col">
+        <div class="spec-label">Instalação</div>
+        <div class="spec-val">Portátil (Zero instalador)</div>
+      </div>
+      <div class="spec-col">
+        <div class="spec-label">Licença</div>
+        <div class="spec-val">MIT (Código Aberto)</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="features">
+    <div class="site-container">
+      <div class="block-header">
+        <h2 class="block-title">Recursos Principais</h2>
+        <p class="block-subtitle">Projetado com foco em utilidade direta, velocidade e simplicidade técnica.</p>
+      </div>
+
+      <div class="features-list-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Varredura Instantânea</h3>
+            <p class="feature-desc">
+              Exibe o primeiro arquivo na tela imediatamente e processa o restante da pasta em segundo plano, evitando travamentos em diretórios com milhares de itens.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <line x1="6" y1="8" x2="6.01" y2="8"/>
+              <line x1="10" y1="8" x2="10.01" y2="8"/>
+              <line x1="14" y1="8" x2="14.01" y2="8"/>
+              <line x1="18" y1="8" x2="18.01" y2="8"/>
+              <line x1="8" y1="16" x2="16" y2="16"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Fluxo 100% no Teclado</h3>
+            <p class="feature-desc">
+              Pressione <kbd>D</kbd> para avançar, <kbd>A</kbd> para voltar e <kbd>Del</kbd> para enviar para a lixeira. A triagem é contínua e sem necessidade do mouse.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Lixeira Segura e Desfazer</h3>
+            <p class="feature-desc">
+              Nenhum arquivo é excluído de forma destrutiva. O descarte vai direto para a Lixeira nativa do Windows e pode ser restaurado a qualquer momento com <kbd>Ctrl+Z</kbd>.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Identificação de Duplicatas SHA-256</h3>
+            <p class="feature-desc">
+              Agrupa arquivos idênticos por tamanho e valida por hash criptográfico. Mostra lado a lado o original e a cópia excedente para você liberar espaço com precisão.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="21 8 21 21 3 21 3 8"/>
+              <rect x="1" y="3" width="22" height="5"/>
+              <line x1="10" y1="12" x2="14" y2="12"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Leitor Interno de Arquivos ZIP e APK</h3>
+            <p class="feature-desc">
+              Inspeciona a árvore interna de arquivos compactados (.zip, .jar, .apk) sem precisar extrair nada para o disco rígido antes de tomar uma decisão.
+            </p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2"/>
+              <rect x="9" y="9" width="6" height="6"/>
+              <line x1="9" y1="1" x2="9" y2="4"/>
+              <line x1="15" y1="1" x2="15" y2="4"/>
+              <line x1="9" y1="20" x2="9" y2="23"/>
+              <line x1="15" y1="20" x2="15" y2="23"/>
+            </svg>
+          </div>
+          <div class="feature-card-content">
+            <h3 class="feature-title">Totalmente Portátil</h3>
+            <p class="feature-desc">
+              Não exige instalação, não altera o registro do Windows e não cria pastas ocultas. Baixe, descompacte e use diretamente de onde estiver.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-alt" id="shortcuts">
+    <div class="site-container">
+      <div class="block-header">
+        <h2 class="block-title">Atalhos de Teclado</h2>
+        <p class="block-subtitle">Todas as ações principais contam com teclas dedicadas para operação rápida.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Tecla de Atalho</th>
+              <th style="width: 25%;">Ação</th>
+              <th style="width: 50%;">Comportamento no Utilitário</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><kbd>D</kbd> ou <kbd>→</kbd></td>
+              <td><strong>Próximo Arquivo</strong></td>
+              <td>Carrega imediatamente o próximo arquivo da pasta selecionada.</td>
+            </tr>
+            <tr>
+              <td><kbd>A</kbd> ou <kbd>←</kbd></td>
+              <td><strong>Arquivo Anterior</strong></td>
+              <td>Retorna para a mídia anterior para conferência.</td>
+            </tr>
+            <tr>
+              <td><kbd>Delete</kbd>, <kbd>X</kbd> ou <kbd>Backspace</kbd></td>
+              <td><strong class="col-danger">Mover para a Lixeira</strong></td>
+              <td>Envia o arquivo para a Lixeira do Windows e contabiliza os bytes liberados.</td>
+            </tr>
+            <tr>
+              <td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td>
+              <td><strong class="col-highlight">Desfazer Exclusão</strong></td>
+              <td>Restaura imediatamente da Lixeira o último arquivo descartado.</td>
+            </tr>
+            <tr>
+              <td><kbd>Espaço</kbd></td>
+              <td><strong>Play / Pausar Vídeo</strong></td>
+              <td>Inicia ou pausa a reprodução de arquivos MP4, MKV e clipes.</td>
+            </tr>
+            <tr>
+              <td><kbd>F</kbd> ou <kbd>F11</kbd></td>
+              <td><strong>Alternar Tela Cheia</strong></td>
+              <td>Maximiza a visualização para conferência detalhada em alta resolução.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" id="screenshots">
+    <div class="site-container text-center">
+      <div class="block-header">
+        <h2 class="block-title">Capturas de Tela</h2>
+        <p class="block-subtitle" id="carouselSubtitle">
+          Interface em tema escuro Mica com visualizador de mídia, barra de categorias e status em tempo real.
+        </p>
+      </div>
+
+      <div class="screenshot-tabs">
+        <button class="btn-tab active" data-index="0">Visualizador de Fotos e Vídeos</button>
+        <button class="btn-tab" data-index="1">Detector de Duplicatas</button>
+        <button class="btn-tab" data-index="2">Inspetor de Arquivos ZIP</button>
+      </div>
+
+      <div class="screenshot-display-frame">
+        <div class="frame-bar">
+          <span class="frame-title" id="carouselWindowTitle">TrashAll: Modo Visualizador de Mídia</span>
+        </div>
+        <div class="carousel-slides">
+          <div class="carousel-slide active" data-title="TrashAll: Modo Visualizador de Mídia" data-sub="Visualizador focado em fotos, vídeos e documentos com contador e botão de desfazer (Ctrl+Z).">
+            <img src="assets/images/hero-preview.jpg" alt="Interface Principal do TrashAll">
+          </div>
+          <div class="carousel-slide" data-title="TrashAll: Detecção e Comparação de Duplicados" data-sub="Comparação lado a lado com identificação por hash SHA-256 e cálculo do espaço desperdiçado.">
+            <img src="assets/images/duplicate-cleaner.jpg" alt="Detecção de Duplicados no TrashAll">
+          </div>
+          <div class="carousel-slide" data-title="TrashAll: Leitor de Pacotes Compactados" data-sub="Inspeção direta da árvore de arquivos de pacotes .ZIP sem necessidade de extrair no disco.">
+            <img src="assets/images/zip-inspector.jpg" alt="Leitor de Arquivos Compactados no TrashAll">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block section-alt" id="download">
+    <div class="site-container">
+      <div class="block-header">
+        <h2 class="block-title">Download do TrashAll</h2>
+        <p class="block-subtitle">Escolha o pacote adequado para o seu ambiente. Todas as edições são 100% gratuitas.</p>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="clean-table download-matrix">
+          <thead>
+            <tr>
+              <th>Pacote</th>
+              <th>Plataforma</th>
+              <th>Requisitos</th>
+              <th>Tipo</th>
+              <th style="text-align: right;">Download</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="row-featured">
+              <td>
+                <div class="pkg-title">TrashAll Portátil (.zip)</div>
+                <div class="pkg-sub">Recomendado para a maioria dos usuários</div>
+              </td>
+              <td>Windows 10 / 11 (64-bit)</td>
+              <td>Nenhum (Tudo embutido)</td>
+              <td><span class="badge badge-green">Self-Contained x64</span></td>
+              <td style="text-align: right;">
+                <a href="https://github.com/juniodevs/TrashAll/releases/latest" class="btn btn-action-green" id="btnDownloadPortable">
+                  Baixar Portátil
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="pkg-title">TrashAll Versão Leve (.zip)</div>
+                <div class="pkg-sub">Para programadores e máquinas com .NET</div>
+              </td>
+              <td>Windows 10 / 11 (64-bit)</td>
+              <td>Requer .NET 8 Runtime</td>
+              <td><span class="badge badge-slate">Framework-Dependent</span></td>
+              <td style="text-align: right;">
+                <a href="https://github.com/juniodevs/TrashAll/releases/latest" class="btn btn-action-slate" id="btnDownloadDependent">
+                  Baixar Leve
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="pkg-title">Código-Fonte Completo (.zip)</div>
+                <div class="pkg-sub">Repositório oficial no GitHub</div>
+              </td>
+              <td>Qualquer SO</td>
+              <td>C# 12 e .NET 8 SDK</td>
+              <td><span class="badge badge-slate">Código Aberto</span></td>
+              <td style="text-align: right;">
+                <a href="https://github.com/juniodevs/TrashAll/archive/refs/heads/master.zip" class="btn btn-action-slate">
+                  Baixar Código
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="integrity-card">
+        <div class="integrity-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div class="integrity-info">
+          <strong>Verificação de Integridade:</strong>
+          Cada compilação publicada pelo pipeline do GitHub Actions gera automaticamente as assinaturas de hash no arquivo <code>SHA256SUMS.txt</code>.
+        </div>
+        <a href="https://github.com/juniodevs/TrashAll/releases" target="_blank" rel="noopener noreferrer" class="integrity-link">
+          Ver Releases no GitHub →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="site-container footer-layout">
+      
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img src="assets/images/logo.svg" alt="TrashAll Icon" width="20" height="20">
+          <strong>TrashAll para Windows</strong>
+        </div>
+        <p class="footer-text">
+          Utilitário rápido de triagem e limpeza de arquivos de mídia.<br>
+          Desenvolvido com .NET 8, C# 12 e WPF-UI por <a href="https://github.com/juniodevs" target="_blank" rel="noopener noreferrer">juniodevs</a>.
+        </p>
+        <div class="footer-copy">
+          &copy; <span id="currentYear">2026</span> TrashAll. Distribuído sob os termos da Licença MIT.
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-links-group">
+          <strong>Links Úteis</strong>
+          <a href="#overview">Início</a>
+          <a href="#features">Recursos</a>
+          <a href="#shortcuts">Atalhos</a>
+          <a href="#download">Download</a>
+        </div>
+
+        <div class="footer-links-group">
+          <strong>Projeto</strong>
+          <a href="https://github.com/juniodevs/TrashAll" target="_blank" rel="noopener noreferrer">Repositório no GitHub</a>
+          <a href="https://github.com/juniodevs/TrashAll/releases" target="_blank" rel="noopener noreferrer">Notas de Atualização</a>
+          <a href="https://github.com/juniodevs/TrashAll/issues" target="_blank" rel="noopener noreferrer">Reportar Problema</a>
+          <a href="https://github.com/juniodevs/TrashAll/blob/master/LICENSE" target="_blank" rel="noopener noreferrer">Licença MIT</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
